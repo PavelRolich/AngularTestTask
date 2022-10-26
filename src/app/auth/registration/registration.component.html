@@ -1,0 +1,34 @@
+<mat-card class="card">
+  <mat-card-header class="card__header">
+    <mat-card-title>Welcome to our application, please register</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card__content">
+    <form class="card__content-form" [formGroup]="loginForm" #ngForm="ngForm" (ngSubmit)="submit()">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" formControlName="username" name="username" />
+        <div *ngIf="ngForm.submitted && loginForm.controls.username.errors" class="invalid">
+          <div *ngIf="loginForm.controls.username.errors?.['required']">Username required</div>
+          <div *ngIf="loginForm.controls.username.errors?.['minlength']">Must be at least 5 characters</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" formControlName="password" name="password" />
+        <div *ngIf="ngForm.submitted && loginForm.controls.password.errors" class="invalid">
+          <div *ngIf="loginForm.controls.password.errors?.['required']">Password required</div>
+          <div *ngIf="loginForm.controls.password.errors?.['minlength']">Must be at least 6 characters</div>
+        </div>
+      </div>
+
+      <div class="card__content-form-actions">
+        <app-button mat-raised-button text="Sign Up"></app-button>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-footer class="card__footer">
+    <p>If you have an account, please <a routerLink="/auth/login">login</a></p>
+    <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+  </mat-card-footer>
+</mat-card>

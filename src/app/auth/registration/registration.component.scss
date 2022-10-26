@@ -1,0 +1,33 @@
+.card {
+  max-width: 20rem;
+  margin: 10rem auto;
+
+  input {
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: stretch;
+ }
+
+  &__content-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    &-actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .invalid {
+      color: red;
+    }
+  }
+
+  &__footer {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+  }   
+}
