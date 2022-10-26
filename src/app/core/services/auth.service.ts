@@ -53,7 +53,7 @@ export class AuthService {
             const message = 'User successfully logged in';
             this.snackbarService.openSnackBar(message, 'success');
             this.store.dispatch(AuthActions.loginSuccess({ token: response.token }));
-            this.router.navigate(['/products']);
+            this.router.navigate(['/products/list']);
           }
         }),
         catchError((response) => {
