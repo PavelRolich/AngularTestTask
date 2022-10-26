@@ -1,0 +1,7 @@
+<div class="products-list">
+  <ng-container *ngIf="products$ | async as products">
+    <ng-container *ngFor="let product of products">
+      <app-product-list-item [product]="product" (productClick)="productClick($event)"></app-product-list-item>
+    </ng-container>
+  </ng-container>
+</div>
