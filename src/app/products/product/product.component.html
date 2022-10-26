@@ -4,6 +4,16 @@
   <p>{{ product.text }}</p>
 </div>
 
-<div *ngIf="true">
-  <app-review></app-review>
-</div>
+<hr width="90%" />
+
+<ng-container *ngIf="isAuthenticated$ | async">
+  <div *ngIf="activeProduct$ | async as product">
+    <app-review [activeProduct]="product"></app-review>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="(isAuthenticated$ | async) === false">
+  <div>
+    <p>You do not have sufficient rights to view and create a product review. Please login!</p>
+  </div>
+</ng-container>
