@@ -1,0 +1,14 @@
+::ng-deep .warning {
+  background: yellow;
+  color: darkgoldenrod;
+}
+
+::ng-deep .error {
+  background: tomato;
+  color: darkred;
+}
+
+::ng-deep .success {
+  background: lightgreen;
+  color: white;
+}
