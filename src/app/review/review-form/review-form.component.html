@@ -1,0 +1,28 @@
+<div class="review-form">
+  <div class="review-form__rate">
+    <div>
+      <ng-container *ngFor="let star of stars">
+        <app-star
+          [starId]="star"
+          [rating]="hoverState || rating"
+          (enter)="enter($event)"
+          (leave)="leave()"
+          (starClick)="updateRating(star)"
+        >
+        </app-star>
+      </ng-container>
+    </div>
+    <div>
+      <p>Rate {{ rating }}</p>
+    </div>
+  </div>
+  <div class="review-form__text">
+    <mat-form-field appearance="fill">
+      <textarea matInput [(ngModel)]="reviewText" placeholder="Leave a review"></textarea>
+    </mat-form-field>
+  </div>
+  <div class="review-form__action">
+    <app-button text="Send" (buttonClick)="sendReview()"></app-button>
+    <app-button text="Cancel" (buttonClick)="clearReview()"></app-button>
+  </div>
+</div>
