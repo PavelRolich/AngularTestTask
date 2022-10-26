@@ -1,5 +1,7 @@
-import * as fromAuth from './reducers/auth.reducer';
+import { AuthState } from './reducers/auth.reducer';
+import { ProductState } from './reducers/products.reducer';
 
 export interface State {
-  auth: fromAuth.AuthState;
+  auth: AuthState;
+  product: ProductState;
 }
