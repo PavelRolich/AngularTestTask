@@ -1,0 +1,9 @@
+<div *ngIf="activeProduct$ | async as product" class="product">
+  <h1>{{ product.title }}</h1>
+  <img [src]="product.img" [alt]="product.title" />
+  <p>{{ product.text }}</p>
+</div>
+
+<div *ngIf="true">
+  <app-review></app-review>
+</div>
