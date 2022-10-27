@@ -25,6 +25,7 @@ export class ReviewService {
           const message = 'Review successfully saved';
           this.snackbarService.openSnackBar(message, 'success');
         }),
+        tap(() => this.getReviewList(productId)),
         catchError((response) => {
           this.snackbarService.openSnackBar(response.error.message, 'error');
           return of();
