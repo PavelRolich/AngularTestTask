@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { Product } from 'src/app/core/interfaces/product.interface';
-import { selectProducts } from 'src/app/core/store/selectors/products.selectors';
-import { State } from 'src/app/core/store/state';
+import { ProductsService } from 'src/app/core/services/products.service';
 
 @Component({
   selector: 'app-products-list',
@@ -14,8 +12,8 @@ import { State } from 'src/app/core/store/state';
 export class ProductsListComponent {
   products$: Observable<Product[]> = of([]);
 
-  constructor(private store: Store<State>, private router: Router) {
-    this.products$ = this.store.select(selectProducts);
+  constructor(private productsService: ProductsService, private router: Router) {
+    this.products$ = this.productsService.getProductsList();
   }
 
   productClick(productId: string): void {

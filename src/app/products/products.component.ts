@@ -8,6 +8,6 @@ import { ProductsService } from '../core/services/products.service';
 })
 export class ProductsComponent {
   constructor(private productsService: ProductsService) {
-    this.productsService.getProductsList();
+    this.productsService.loadProductsList();
   }
 }

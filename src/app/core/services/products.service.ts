@@ -1,12 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { Store } from '@ngrx/store';
-import { catchError, tap } from 'rxjs/operators';
-import { Product } from '../interfaces/product.interface';
 import { State } from '../store/state';
 import * as ProductActions from '../store/actions/products.actions';
+import { selectProducts, selectSpecificProduct } from '../store/selectors/products.selectors';
+
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
+import { Product } from '../interfaces/product.interface';
+
 import { SnackbarService } from './snackbar.service';
-import { of } from 'rxjs';
 
 @Injectable()
 export class ProductsService {
@@ -14,7 +19,7 @@ export class ProductsService {
 
   constructor(private http: HttpClient, private store: Store<State>, private snackbarService: SnackbarService) {}
 
-  getProductsList(): void {
+  loadProductsList(): void {
     this.http
       .get<Product[]>(this.apiUrl)
       .pipe(
@@ -27,5 +32,13 @@ export class ProductsService {
         })
       )
       .subscribe();
+  }
+
+  getProductsList(): Observable<Product[]> {
+    return this.store.select(selectProducts);
+  }
+
+  getSpecificProduct(productId: string): Observable<Product | undefined> {
+    return this.store.select(selectSpecificProduct(productId));
   }
 }

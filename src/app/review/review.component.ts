@@ -1,11 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { State } from '../core/store/state';
 import { Observable, of } from 'rxjs';
 import { Product } from '../core/interfaces/product.interface';
 import { Review, ReviewForm } from '../core/interfaces/review.interface';
 import { ReviewService } from '../core/services/review.service';
-import { selectReviews } from '../core/store/selectors/reviews.selectors';
 
 @Component({
   selector: 'app-review',
@@ -17,12 +14,12 @@ export class ReviewComponent implements OnInit {
 
   reviewList$: Observable<Review[]> = of([]);
 
-  constructor(private reviewService: ReviewService, private store: Store<State>) {
-    this.reviewList$ = this.store.select(selectReviews);
+  constructor(private reviewService: ReviewService) {
+    this.reviewList$ = this.reviewService.getReviewList();
   }
 
   ngOnInit(): void {
-    this.reviewService.getReviewList(this.activeProduct.id);
+    this.reviewService.loadReviewList(this.activeProduct.id);
   }
 
   submitReviewForm(form: ReviewForm): void {

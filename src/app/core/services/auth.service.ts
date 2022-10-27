@@ -1,15 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { catchError, map, take, tap } from 'rxjs/operators';
-import { User } from '../interfaces/user.interface';
 import { State } from '../store/state';
 import * as AuthActions from '../store/actions/auth.actions';
-import { SnackbarService } from './snackbar.service';
 import { selectIsAuthenticated } from '../store/selectors/auth.selectors';
+
+import { Observable, of } from 'rxjs';
+import { catchError, map, take, tap } from 'rxjs/operators';
+
+import { User } from '../interfaces/user.interface';
 import { AuthResponse } from '../interfaces/auth.interface';
+
+import { SnackbarService } from './snackbar.service';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
@@ -20,10 +24,10 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private snackbarService: SnackbarService,
-    private localStorageService: LocalStorageService,
     private router: Router,
-    private store: Store<State>
+    private store: Store<State>,
+    private snackbarService: SnackbarService,
+    private localStorageService: LocalStorageService
   ) {}
 
   registerUser(user: User): void {

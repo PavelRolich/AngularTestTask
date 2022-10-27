@@ -4,8 +4,6 @@
   (mouseenter)="enter.emit(starId)"
   (mouseleave)="leave.emit(starId)"
   [ngClass]="{ 'star-rating-filled': rating >= starId, 'star-rating-blank': rating < starId }"
-  height="55px"
-  width="53px"
   viewBox="0 0 25 23"
   data-rating="1"
 >
