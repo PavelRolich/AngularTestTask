@@ -1,4 +1,6 @@
 <div>
   <app-review-form (submitReviewForm)="submitReviewForm($event)"></app-review-form>
-  <app-review-list></app-review-list>
+  <ng-container *ngIf="reviewList$ | async as reviewList">
+    <app-review-list [reviewList]="reviewList"></app-review-list>
+  </ng-container>
 </div>
