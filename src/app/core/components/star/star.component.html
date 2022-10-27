@@ -1,6 +1,6 @@
 <svg
   (click)="starClick.emit(starId)"
-  class="star-rating-blank"
+  class="star"
   (mouseenter)="enter.emit(starId)"
   (mouseleave)="leave.emit(starId)"
   [ngClass]="{ 'star-rating-filled': rating >= starId, 'star-rating-blank': rating < starId }"

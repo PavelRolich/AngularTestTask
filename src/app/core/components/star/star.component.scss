@@ -1,3 +1,18 @@
+.star {
+  width: 33px;
+  height: 35px;
+
+  @media screen and (min-width: 960px) {
+    width: 43px;
+    height: 45px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    width: 53px;
+    height: 55px;
+  }
+}
+
 .star-rating-filled {
   fill: gold;
 }

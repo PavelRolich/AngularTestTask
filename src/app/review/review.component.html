@@ -1,6 +1,11 @@
-<div>
-  <app-review-form (submitReviewForm)="submitReviewForm($event)"></app-review-form>
+<div class="review">
+  <app-review-form class="review__form" (submitReviewForm)="submitReviewForm($event)"></app-review-form>
   <ng-container *ngIf="reviewList$ | async as reviewList">
-    <app-review-list [reviewList]="reviewList"></app-review-list>
+    <ng-container *ngIf="reviewList.length === 0">
+      <p class="review__list">There are no reviews yet. Leave the first one!</p>
+    </ng-container>
+    <ng-container *ngIf="reviewList.length > 0">
+      <app-review-list class="review__list" [reviewList]="reviewList"></app-review-list>
+    </ng-container>
   </ng-container>
 </div>

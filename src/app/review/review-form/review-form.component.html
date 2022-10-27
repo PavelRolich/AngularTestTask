@@ -12,9 +12,6 @@
         </app-star>
       </ng-container>
     </div>
-    <div>
-      <p>Rate {{ rating }}</p>
-    </div>
   </div>
   <div class="review-form__text">
     <mat-form-field appearance="fill">
@@ -22,7 +19,6 @@
     </mat-form-field>
   </div>
   <div class="review-form__action">
-    <app-button text="Send" (buttonClick)="sendReview()"></app-button>
-    <app-button text="Cancel" (buttonClick)="clearReview()"></app-button>
+    <app-button text="Send review" (buttonClick)="sendReview()"></app-button>
   </div>
 </div>

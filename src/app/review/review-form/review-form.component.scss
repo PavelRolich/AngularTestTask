@@ -1,15 +1,30 @@
 .review-form {
-  max-width: 1200px;
+  width: 100%;
   margin: auto;
-
-  &__rate {
-
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 
   &__text {
+    width: 100%;
+
+    & > mat-form-field {
+      width: 100%;
+    }
 
     textarea {
       resize: none;
+      width: 100%;
+      height: 100px;
+
+      @media screen and (min-width: 600px) {
+        height: 150px;
+      }
     }
+  }
+
+  &__action {
+    width: 100%;
   }
 }
