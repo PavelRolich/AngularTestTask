@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, take, tap } from 'rxjs/operators';
 import { Review } from '../interfaces/review.interface';
+import { of } from 'rxjs';
+import { catchError, take, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { State } from '../store/state';
+import * as ReviewActions from '../store/actions/reviews.actions';
 import { SnackbarService } from './snackbar.service';
 
 @Injectable({
@@ -11,7 +14,7 @@ import { SnackbarService } from './snackbar.service';
 export class ReviewService {
   apiUrl: string = 'reviews/';
 
-  constructor(private http: HttpClient, private snackbarService: SnackbarService) {}
+  constructor(private http: HttpClient, private snackbarService: SnackbarService, private store: Store<State>) {}
 
   sendReview(text: string, rate: number, productId: string): void {
     this.http
@@ -30,12 +33,19 @@ export class ReviewService {
       .subscribe();
   }
 
-  getReviewList(productId: string): Observable<Review[]> {
-    return this.http.get<Review[]>(this.apiUrl + productId).pipe(
-      catchError((response) => {
-        this.snackbarService.openSnackBar(response.error.message, 'error');
-        return of([]);
-      })
-    );
+  getReviewList(productId: string): void {
+    this.http
+      .get<Review[]>(this.apiUrl + productId)
+      .pipe(
+        take(1),
+        tap((reviews) => {
+          this.store.dispatch(ReviewActions.setReviews({ reviews }));
+        }),
+        catchError((response) => {
+          this.snackbarService.openSnackBar(response.error.message, 'error');
+          return of([]);
+        })
+      )
+      .subscribe();
   }
 }
