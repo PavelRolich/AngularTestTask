@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { State } from '../store/state';
-import * as AuthActions from '../store/actions/auth.actions';
 import { selectIsAuthenticated } from '../store/selectors/auth.selectors';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, take, tap } from 'rxjs/operators';
+import { catchError, filter, map, take, tap } from 'rxjs/operators';
 
 import { User } from '../interfaces/user.interface';
 import { AuthResponse } from '../interfaces/auth.interface';
@@ -24,54 +22,47 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
     private store: Store<State>,
     private snackbarService: SnackbarService,
     private localStorageService: LocalStorageService
   ) {}
 
-  registerUser(user: User): void {
-    this.http
-      .post<AuthResponse>(this.apiUrl + 'register', { ...user })
-      .pipe(
-        take(1),
-        tap((response) => {
-          if (response.success) {
-            const message = 'User successfully register';
-            this.store.dispatch(AuthActions.loginSuccess({ token: response.token }));
-            this.localStorageService.setToken(response.token);
-            this.snackbarService.openSnackBar(message, 'success');
-            this.router.navigate(['/products']);
-          }
-        }),
-        catchError((response) => {
-          this.snackbarService.openSnackBar(response.error.message, 'error');
-          return of();
-        })
-      )
-      .subscribe();
+  registerUser(user: User): Observable<boolean> {
+    return this.http.post<AuthResponse>(this.apiUrl + 'register', { ...user }).pipe(
+      take(1),
+      filter((response) => response.success),
+      tap((response) => {
+        this.localStorageService.setToken(response.token);
+      }),
+      tap(() => {
+        const message = 'User successfully register';
+        this.snackbarService.openSnackBar(message, 'success');
+      }),
+      map((response) => response.success),
+      catchError((response) => {
+        this.snackbarService.openSnackBar(response.error.message, 'error');
+        return of(false);
+      })
+    );
   }
 
-  login(user: User): void {
-    this.http
-      .post<AuthResponse>(this.apiUrl + 'login', { ...user })
-      .pipe(
-        take(1),
-        tap((response) => {
-          if (response.success) {
-            const message = 'User successfully logged in';
-            this.store.dispatch(AuthActions.loginSuccess({ token: response.token }));
-            this.localStorageService.setToken(response.token);
-            this.snackbarService.openSnackBar(message, 'success');
-            this.router.navigate(['/products/list']);
-          }
-        }),
-        catchError((response) => {
-          this.snackbarService.openSnackBar(response.error.message, 'error');
-          return of();
-        })
-      )
-      .subscribe();
+  login(user: User): Observable<boolean> {
+    return this.http.post<AuthResponse>(this.apiUrl + 'login', { ...user }).pipe(
+      take(1),
+      filter((response) => response.success),
+      tap((response) => {
+        this.localStorageService.setToken(response.token);
+      }),
+      tap(() => {
+        const message = 'User successfully logged in';
+        this.snackbarService.openSnackBar(message, 'success');
+      }),
+      map((response) => response.success),
+      catchError((response) => {
+        this.snackbarService.openSnackBar(response.error.message, 'error');
+        return of(false);
+      })
+    );
   }
 
   logout(): void {
@@ -79,11 +70,11 @@ export class AuthService {
       .post<{ message: string }>(this.apiUrl + 'logout', {})
       .pipe(
         take(1),
-        map((response) => {
-          const message = 'User successfully logged out';
-          this.store.dispatch(AuthActions.logout());
+        tap(() => {
           this.localStorageService.removeToken();
-          this.snackbarService.openSnackBar(message, 'success');
+        }),
+        tap((response) => {
+          this.snackbarService.openSnackBar(response.message, 'success');
         }),
         catchError((response) => {
           this.snackbarService.openSnackBar(response.error.message, 'error');
