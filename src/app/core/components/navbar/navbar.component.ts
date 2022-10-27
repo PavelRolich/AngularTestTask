@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -8,13 +9,20 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   @Input() title: string = '';
 
-  isAuthenticated!: Observable<boolean>;
+  showBackButton$: Observable<boolean> = of(false);
+  isAuthenticated$: Observable<boolean> = of(false);
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.isAuthenticated = this.authService.isAuthenticated();
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.isAuthenticated$ = this.authService.isAuthenticated();
+    this.showBackButton$ = this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map((event) => (event as NavigationEnd).urlAfterRedirects !== '/products/list')
+    );
   }
 
   logout(): void {
@@ -23,5 +31,9 @@ export class NavbarComponent {
 
   login(): void {
     this.router.navigate(['/auth/login']);
+  }
+
+  backToProductsList(): void {
+    this.router.navigate(['/products']);
   }
 }

@@ -3,7 +3,12 @@
     <span>{{ title }}</span>
   </span>
   <span class="navigation__item">
-    <app-button *ngIf="isAuthenticated | async" text="Logout" (buttonClick)="logout()"></app-button>
-    <app-button *ngIf="(isAuthenticated | async) === false" text="Login" (buttonClick)="login()"></app-button>
+    <app-button
+      *ngIf="showBackButton$ | async"
+      text="< Back to products list"
+      (buttonClick)="backToProductsList()"
+    ></app-button>
+    <app-button *ngIf="isAuthenticated$ | async" text="Logout" (buttonClick)="logout()"></app-button>
+    <app-button *ngIf="(isAuthenticated$ | async) === false" text="Login" (buttonClick)="login()"></app-button>
   </span>
 </nav>
