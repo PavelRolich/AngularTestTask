@@ -5,6 +5,7 @@ import { ProductsListComponent } from './products-list/products-list.component';
 import { ProductsComponent } from './products.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'list', pathMatch: 'full' },
   {
     path: '',
     component: ProductsComponent,
