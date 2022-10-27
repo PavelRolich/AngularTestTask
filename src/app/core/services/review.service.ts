@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../store/state';
 import * as ReviewActions from '../store/actions/reviews.actions';
+import { selectReviews } from '../store/selectors/reviews.selectors';
 
 import { Review } from '../interfaces/review.interface';
 
@@ -11,7 +12,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
 
 import { SnackbarService } from './snackbar.service';
-import { selectReviews } from '../store/selectors/reviews.selectors';
 
 @Injectable({
   providedIn: 'root',
