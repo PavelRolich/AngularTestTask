@@ -9,8 +9,8 @@ export interface AuthState {
 }
 
 export const initialState: AuthState = {
-  isLoggedIn: false,
-  token: null,
+  isLoggedIn: localStorage.getItem('Authorization') ? true : false,
+  token: localStorage.getItem('Authorization'),
 };
 
 export const authReducerInternal = createReducer(

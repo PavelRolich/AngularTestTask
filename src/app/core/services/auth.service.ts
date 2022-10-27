@@ -10,6 +10,7 @@ import * as AuthActions from '../store/actions/auth.actions';
 import { SnackbarService } from './snackbar.service';
 import { selectIsAuthenticated } from '../store/selectors/auth.selectors';
 import { AuthResponse } from '../interfaces/auth.interface';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private snackbarService: SnackbarService,
+    private localStorageService: LocalStorageService,
     private router: Router,
     private store: Store<State>
   ) {}
@@ -32,6 +34,8 @@ export class AuthService {
         tap((response) => {
           if (response.success) {
             const message = 'User successfully register';
+            this.store.dispatch(AuthActions.loginSuccess({ token: response.token }));
+            this.localStorageService.setToken(response.token);
             this.snackbarService.openSnackBar(message, 'success');
             this.router.navigate(['/products']);
           }
@@ -52,8 +56,9 @@ export class AuthService {
         tap((response) => {
           if (response.success) {
             const message = 'User successfully logged in';
-            this.snackbarService.openSnackBar(message, 'success');
             this.store.dispatch(AuthActions.loginSuccess({ token: response.token }));
+            this.localStorageService.setToken(response.token);
+            this.snackbarService.openSnackBar(message, 'success');
             this.router.navigate(['/products/list']);
           }
         }),
@@ -72,8 +77,9 @@ export class AuthService {
         take(1),
         map((response) => {
           const message = 'User successfully logged out';
-          this.snackbarService.openSnackBar(message, 'success');
           this.store.dispatch(AuthActions.logout());
+          this.localStorageService.removeToken();
+          this.snackbarService.openSnackBar(message, 'success');
         }),
         catchError((response) => {
           this.snackbarService.openSnackBar(response.error.message, 'error');
