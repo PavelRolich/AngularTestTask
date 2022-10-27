@@ -3,6 +3,10 @@
   width: 100%;
   margin: auto;
   box-sizing: border-box;
+
+  @media screen and (min-width: 600px) {
+    width: 90%;
+  }
   
   @media screen and (min-width: 960px) {
     width: 80%;

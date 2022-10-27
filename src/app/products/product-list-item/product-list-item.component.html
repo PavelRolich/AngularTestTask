@@ -1,6 +1,8 @@
 <div class="product-item" (click)="productClick.emit(product.id)">
-  <div><img class="product-item__image" [src]="product.img" [alt]="product.title" width="250px" height="250px" /></div>
-  <div>
-    <span class="product-item__title">{{ product.title }}</span>
+  <div class="product-item__image">
+    <img [src]="product.img" [alt]="product.title" />
+  </div>
+  <div class="product-item__title">
+    <p>{{ product.title }}</p>
   </div>
 </div>
