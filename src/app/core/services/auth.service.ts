@@ -28,6 +28,7 @@ export class AuthService {
     this.http
       .post<AuthResponse>(this.apiUrl + 'register', { ...user })
       .pipe(
+        take(1),
         tap((response) => {
           if (response.success) {
             const message = 'User successfully register';
@@ -68,6 +69,7 @@ export class AuthService {
     this.http
       .post<{ message: string }>(this.apiUrl + 'logout', {})
       .pipe(
+        take(1),
         map((response) => {
           const message = 'User successfully logged out';
           this.snackbarService.openSnackBar(message, 'success');
