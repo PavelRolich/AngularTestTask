@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './core/store/reducers/auth.reducer';
 import { productReducer } from './core/store/reducers/products.reducer';
+import { reviewReducer } from './core/store/reducers/reviews.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,7 @@ import { productReducer } from './core/store/reducers/products.reducer';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({ auth: authReducer, product: productReducer }, {}),
+    StoreModule.forRoot({ auth: authReducer, product: productReducer, review: reviewReducer }, {}),
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
