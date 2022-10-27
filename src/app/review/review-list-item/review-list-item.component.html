@@ -3,7 +3,7 @@
     <p class="review-list-item__title-user">{{ review.created_by.username }}</p>
     <p
       class="review-list-item__title-rate"
-      [class.review-list-item__title-rate-low]="review.rate < 2"
+      [class.review-list-item__title-rate-low]="review.rate < 3"
       [class.review-list-item__title-rate-medium]="review.rate === 3"
       [class.review-list-item__title-rate-high]="review.rate > 3"
     >
