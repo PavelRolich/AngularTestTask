@@ -11,8 +11,4 @@ export class ButtonComponent {
   @Output() buttonClick: EventEmitter<MouseEvent> = new EventEmitter();
 
   constructor() {}
-
-  onClick(event: MouseEvent): void {
-    this.buttonClick.emit(event);
-  }
 }
